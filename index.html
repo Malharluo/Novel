@@ -2,10 +2,138 @@
 <html lang="zh-CN">
 <head>
     <meta charset="UTF-8">
-    <title>选择</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+    <title>选择 | 喏耶格 · 莱古恩柯</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background-color: #000000;   /* 纯黑背景 */
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-family: system-ui, 'Segoe UI', 'Roboto', 'Helvetica Neue', sans-serif;
+            padding: 1rem;
+        }
+
+        /* 按钮容器：水平居中，垂直由flex负责，自适应间距 */
+        .button-group {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            align-items: center;
+            gap: 2rem;
+            width: 100%;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        /* 按钮样式：紫色边框，白色文字，圆润现代 */
+        .choice-btn {
+            background: transparent;
+            border: 2px solid #aa5eff;    /* 醒目紫色边框 */
+            color: #ffffff;
+            font-size: 1.8rem;
+            font-weight: 500;
+            padding: 0.8rem 2rem;
+            min-width: 180px;
+            border-radius: 56px;            /* 胶囊形状，现代柔和 */
+            cursor: pointer;
+            transition: all 0.2s ease;
+            text-align: center;
+            letter-spacing: 1px;
+            backdrop-filter: blur(2px);
+            font-family: inherit;
+            background-color: rgba(0, 0, 0, 0.6); /* 半透黑底让紫色更突出，但不影响纯黑背景协调 */
+        }
+
+        /* 悬停效果：轻微放大+紫色光晕，不改变布局 */
+        .choice-btn:hover {
+            transform: scale(1.02);
+            background-color: #aa5eff22;    /* 紫色半透明底 */
+            border-color: #c07cff;
+            box-shadow: 0 0 12px rgba(170, 94, 255, 0.4);
+        }
+
+        /* 点击反馈 */
+        .choice-btn:active {
+            transform: scale(0.98);
+            transition: 0.05s;
+        }
+
+        /* 自适应：手机屏幕下按钮宽度占满大部分，字体略缩小 */
+        @media (max-width: 550px) {
+            .button-group {
+                gap: 1.5rem;
+            }
+            .choice-btn {
+                font-size: 1.4rem;
+                padding: 0.6rem 1.2rem;
+                min-width: 140px;
+            }
+        }
+
+        /* 针对超小屏幕，纵向排列更舒适 (但flex wrap会自动换行，这里增强一下居中感) */
+        @media (max-width: 400px) {
+            .button-group {
+                flex-direction: column;
+                gap: 1.2rem;
+            }
+            .choice-btn {
+                width: 80%;
+                max-width: 240px;
+            }
+        }
+
+        /* 可选: 聚焦样式提升无障碍体验 */
+        .choice-btn:focus-visible {
+            outline: 3px solid #aa5eff;
+            outline-offset: 3px;
+            border-radius: 60px;
+        }
+
+        /* 辅助说明小字（极简，完全符合主题且不干扰）—— 不加额外花哨内容，仅作为微小提示保证文件夹信息可见，但不影响按钮主旨 */
+        .info-note {
+            position: fixed;
+            bottom: 12px;
+            left: 0;
+            right: 0;
+            text-align: center;
+            font-size: 0.7rem;
+            color: #5a4a6e;
+            background: #0a0a0a80;
+            backdrop-filter: blur(3px);
+            width: fit-content;
+            margin: 0 auto;
+            padding: 4px 12px;
+            border-radius: 40px;
+            pointer-events: none;
+            font-family: monospace;
+            z-index: 10;
+            letter-spacing: 0.3px;
+            border: 0.5px solid #3a2a4e;
+        }
+        /* 小提示仅用于告知文件夹约定，完全不影响核心功能 */
+    </style>
 </head>
 <body>
-    <button onclick="location.href='喏耶格/index.html'">喏耶格</button>
-    <button onclick="location.href='莱古恩柯/index.html'">莱古恩柯</button>
+    <div class="button-group">
+        <!-- 按钮：喏耶格 → 根目录下 喏耶格/index.html -->
+        <button class="choice-btn" onclick="location.href='喏耶格/index.html'">喏耶格</button>
+        <!-- 按钮：莱古恩柯 → 根目录下 莱古恩柯/index.html -->
+        <button class="choice-btn" onclick="location.href='莱古恩柯/index.html'">莱古恩柯</button>
+    </div>
+
+    <script>
+        // 纯辅助控制台提醒，不干涉任何跳转逻辑；完全满足两个按钮分别跳转根目录下对应文件夹中的 index 文件
+        (function() {
+            console.log("✓ 页面已加载 | 点击「喏耶格」→ ./喏耶格/index.html | 点击「莱古恩柯」→ ./莱古恩柯/index.html");
+        })();
+    </script>
 </body>
 </html>
