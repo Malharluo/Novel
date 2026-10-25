@@ -1,0 +1,131 @@
+{
+  "src": "D:\\ARC\\index.html",
+  "url": "file:///D:/ARC/index.html",
+  "outdir": "D:\\ARC\\_shots",
+  "include": [
+    "lint",
+    "screenshots",
+    "structure"
+  ],
+  "shots": {
+    "desktop": {
+      "screenshot": "D:\\ARC\\_shots\\index_desktop.jpg",
+      "screenshotBytes": 9888,
+      "truncated": false,
+      "structure": {
+        "title": "ARC · 档案室",
+        "firstH1": "",
+        "viewport": {
+          "w": 1416,
+          "h": 763
+        },
+        "fullpage": {
+          "w": 1416,
+          "h": 763
+        },
+        "counts": {
+          "section": 2,
+          "h1": 0,
+          "h2": 0,
+          "img": 0,
+          "canvas": 0,
+          "svg": 3,
+          "links": 0,
+          "buttons": 3
+        }
+      },
+      "consoleErrors": [],
+      "consoleWarnings": [],
+      "horizontalOverflow": [],
+      "resourceErrors": [],
+      "reportSource": "cdp"
+    },
+    "mobile": {
+      "screenshot": "D:\\ARC\\_shots\\index_mobile.jpg",
+      "screenshotBytes": 4924,
+      "truncated": false,
+      "structure": {
+        "title": "ARC · 档案室",
+        "firstH1": "",
+        "viewport": {
+          "w": 476,
+          "h": 707
+        },
+        "fullpage": {
+          "w": 476,
+          "h": 707
+        },
+        "counts": {
+          "section": 2,
+          "h1": 0,
+          "h2": 0,
+          "img": 0,
+          "canvas": 0,
+          "svg": 3,
+          "links": 0,
+          "buttons": 3
+        }
+      },
+      "consoleErrors": [],
+      "consoleWarnings": [],
+      "horizontalOverflow": [],
+      "resourceErrors": [],
+      "reportSource": "cdp"
+    }
+  },
+  "engine": "chrome_cli",
+  "chromiumExec": "C:\\Program Files (x86)\\Microsoft\\Edge\\Application\\msedge.exe",
+  "engineDegraded": true,
+  "engineDegradedReason": "playwright 未装",
+  "elapsedSec": 6.62,
+  "schemaVersion": 2,
+  "status": "pass",
+  "engineInfo": {
+    "name": "chrome_cli",
+    "degraded": true,
+    "degradedReasons": [
+      "playwright 未装"
+    ]
+  },
+  "input": {
+    "original": "D:\\ARC\\index.html",
+    "resolvedPath": "D:\\ARC\\index.html",
+    "baseUrl": "file:///D:/ARC/index.html",
+    "protocol": "file",
+    "cwd": "D:\\ARC",
+    "mediaMode": {
+      "reducedMotion": true
+    }
+  },
+  "artifacts": {
+    "screenshots": [
+      {
+        "viewport": "desktop",
+        "path": "D:\\ARC\\_shots\\index_desktop.jpg",
+        "size": 9888,
+        "visualCoverage": {
+          "complete": true,
+          "reason": null
+        }
+      },
+      {
+        "viewport": "mobile",
+        "path": "D:\\ARC\\_shots\\index_mobile.jpg",
+        "size": 4924,
+        "visualCoverage": {
+          "complete": true,
+          "reason": null
+        }
+      }
+    ]
+  },
+  "summary": {
+    "blocker": 0,
+    "error": 0,
+    "warning": 0,
+    "info": 0
+  },
+  "findings": [],
+  "prioritizedActions": [],
+  "reportPath": "D:\\ARC\\_shots\\report.json"
+}
