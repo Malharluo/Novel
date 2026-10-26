@@ -124,7 +124,7 @@ body{
 .toc-item.active{border-left-color:var(--accent);background:var(--accent-soft)}
 .toc-item .t-title{font-size:15px;color:var(--text);flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
 .toc-item .t-state{font-family:var(--mono);font-size:11px;color:var(--text-muted);flex-shrink:0}
-/* 状态色：未读=白 / 阅读中=紫 / 已读完=灰 */
+/* 状态色：未调阅=白 / 调阅中=紫 / 已归档=灰 */
 .toc-item .t-title.unread{color:var(--text)}
 .toc-item .t-title.reading{color:var(--accent)}
 .toc-item .t-title.finished{color:var(--text-muted)}
@@ -150,6 +150,15 @@ body{
   color:var(--text-muted);
   letter-spacing:.1em;
   font-size:13px;
+}
+.reader-placeholder .ph-sub{
+  margin:12px auto 0;
+  max-width:34em;
+  font-family:var(--serif);
+  font-size:14px;
+  letter-spacing:.04em;
+  color:var(--text-dim);
+  line-height:2;
 }
 .reader-placeholder .ph-glyph{
   display:block;margin:0 auto 18px;
@@ -256,6 +265,15 @@ body{
   cursor:pointer;color:var(--accent);
   margin-left:8px;font-family:var(--mono);
   font-size:12px;border-bottom:1px dotted var(--accent);
+}
+/* 窄屏（手机端）：批注折叠为可展开卡片，不撑开正文 */
+@media (max-width: 899px){
+  .article-body .note{cursor:pointer;transition:background .2s}
+  .article-body .note:hover{background:var(--accent-soft)}
+  .article-body .note:not(.open) .note-text,
+  .article-body .note:not(.open) .note-link{display:none}
+  .article-body .note:not(.open) .note-phrase{margin-bottom:0}
+  .article-body .note:not(.open) .note-phrase::after{content:" ▸ 展开";color:var(--text-muted)}
 }
 /* 原文词句定位高亮 */
 .article-body mark.phrase-flash{
@@ -546,7 +564,8 @@ mark.hl{
         <path d="M4 20 A9 9 0 0 1 4 4"/>
         <circle cx="19" cy="20" r="2"/>
       </svg>
-      档案库为空 · 等待第一条记录
+      这里还没有归档任何东西。
+      <div class="ph-sub">如果你看到了这条记录，说明归档还没开始，或者已经被清空了。</div>
     </div>
     <article id="articleView"></article>
   </div>
@@ -633,11 +652,11 @@ mark.hl{
   function getProgress(id){ return progressMem[id] || 0; }
   function setProgress(id, pct){
     pct = Math.max(0, Math.min(100, Math.round(pct)));
-    if(progressMem[id] >= 100) return;   /* 已读完不回退 */
+    if(progressMem[id] >= 100) return;   /* 已归档不回退 */
     progressMem[id] = pct;
     saveProgress();
   }
-  /* 阅读状态判定：0=未读 / 0<pct<100=阅读中 / >=100=已读完 */
+  /* 调阅状态判定：0=未调阅 / 0<pct<100=调阅中 / >=100=已归档 */
   function stateOf(pct){
     if (pct >= 100) return 'finished';
     if (pct > 0)    return 'reading';
@@ -695,7 +714,7 @@ mark.hl{
     });
   }
 
-  /* 按存储的进度刷新所有目录项状态：未读白 / 阅读中紫+百分比 / 已读完灰 */
+  /* 按存储的进度刷新所有目录项状态：未调阅白 / 调阅中紫+百分比 / 已归档灰 */
   function refreshTocStates(){
     Object.keys(tocItems).forEach(function(id){
       var pct = getProgress(id);
@@ -703,7 +722,7 @@ mark.hl{
       var it  = tocItems[id];
       it.title.className = 't-title ' + st;
       it.state.textContent = (st === 'reading') ? (pct + '%') : '';
-      it.li.title = (st === 'reading') ? ('已读 ' + pct + '%') : it.title.textContent;
+      it.li.title = (st === 'reading') ? ('调阅中 ' + pct + '%') : it.title.textContent;
     });
   }
 
@@ -1352,6 +1371,21 @@ mark.hl{
       return;
     }
 
+    /* 窄屏批注折叠：未展开的批注卡点击任意处先展开（桌面不启用） */
+    var nt = e.target && e.target.closest ? e.target.closest('.article-body .note') : null;
+    if(nt && window.innerWidth < 900){
+      if(!nt.classList.contains('open')){
+        nt.classList.add('open');
+        return;
+      }
+      /* 已展开：点击空白区域收起（不干扰词句定位 / 讨论跳转） */
+      var inner = e.target.closest('.note-phrase, .note-link');
+      if(!inner){
+        nt.classList.remove('open');
+        return;
+      }
+    }
+
     /* 批注索引词句 → 定位原文 */
     var np = e.target && e.target.closest ? e.target.closest('.note-phrase') : null;
     if(np){
@@ -1380,6 +1414,8 @@ mark.hl{
       var noteLink = document.querySelector('.article-body .note-link[data-cid="' + backCid + '"]');
       var note = noteLink ? noteLink.closest('.note') : null;
       if(note){
+        /* 窄屏下跳转过来时自动展开批注，保证内容可见 */
+        if(window.innerWidth < 900) note.classList.add('open');
         note.scrollIntoView({ behavior: 'smooth', block: 'center' });
         note.classList.add('flash');
         setTimeout(function(){ note.classList.remove('flash'); }, 1800);
