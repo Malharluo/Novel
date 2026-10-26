@@ -310,35 +310,46 @@ body{
   transition:border-color .3s, background .3s;
 }
 .disc-item.flash{border-color:var(--accent);background:var(--accent-soft)}
-/* 帖子式嵌套回复 */
-.disc-replies{
-  margin-left:16px;padding-left:14px;
-  border-left:1px solid var(--line-soft);
-  margin-top:10px;
-}
-.disc-replies .disc-item{background:rgba(255,255,255,.015)}
-/* 引用批注标注 */
+/* 引用批注：显示在内容之前的引文框 */
 .disc-quote{
-  display:inline-block;
-  font-family:var(--mono);font-size:11px;
-  color:var(--accent);background:var(--accent-soft);
-  padding:3px 10px;border-radius:6px;
-  margin:2px 0 8px;letter-spacing:.04em;
+  display:flex;align-items:center;justify-content:space-between;gap:10px;
+  background:var(--accent-soft);
+  border:1px solid rgba(167,139,250,.28);
+  border-left:3px solid var(--accent);
+  border-radius:8px;
+  padding:8px 12px;
+  margin-bottom:10px;
+  font-family:var(--mono);font-size:12px;
+  color:var(--accent);letter-spacing:.03em;
 }
+.disc-quote .disc-back-btn{
+  background:none;border:none;
+  color:var(--text-muted);font-family:var(--mono);
+  font-size:11px;cursor:pointer;padding:6px 8px;
+  min-height:32px;flex-shrink:0;
+}
+.disc-quote .disc-back-btn:hover{color:var(--accent)}
 .disc-user{
   font-family:var(--mono);font-size:12px;
   color:var(--accent);letter-spacing:.06em;
   margin-bottom:5px;
 }
 .disc-text{font-size:14px;line-height:1.95;color:var(--text-dim)}
-.disc-back{margin-top:8px;text-align:right}
-.disc-back-btn{
-  background:none;border:none;
-  color:var(--text-muted);font-family:var(--mono);
-  font-size:11px;cursor:pointer;padding:6px 8px;
-  min-height:32px;
+/* 楼内回复：平级列表（二楼、三楼……都直接回复一楼），不无限嵌套 */
+.disc-replies{
+  margin-top:12px;
+  border-top:1px dashed var(--line-soft);
+  padding-top:4px;
 }
-.disc-back-btn:hover{color:var(--accent)}
+.disc-reply{
+  padding:8px 0 8px 12px;
+  border-left:2px solid var(--line-soft);
+  margin-bottom:6px;
+}
+.disc-reply:hover{border-left-color:var(--accent)}
+.dr-head{display:flex;align-items:baseline;gap:8px;margin-bottom:4px}
+.dr-user{font-family:var(--mono);font-size:12px;color:var(--accent)}
+.dr-target{font-family:var(--mono);font-size:11px;color:var(--text-muted)}
 .disc-empty{font-size:13px;color:var(--text-muted);padding:8px 0}
 
 /* 双向跳转高亮 */
@@ -1164,25 +1175,40 @@ mark.hl{
     return null;
   }
 
-  /* 讨论区渲染（帖子式：可嵌套回复；引用批注的条目带标注） */
-  function renderComment(c, depth){
+  /* 讨论区渲染（帖子式：一楼 + 楼内平级回复；引用批注显示为内容前的引文框） */
+  function renderReply(r, floor){
+    var cid = escapeHtml(r.id || '');
+    /* 解析回复目标：指定 replyTo 则回复对应条目，否则默认回复一楼 */
+    var target = floor.user;
+    if(r.replyTo){
+      var fr = null;
+      var rl = floor.replies || [];
+      for(var i = 0; i < rl.length; i++){
+        if(rl[i].id === r.replyTo){ fr = rl[i]; break; }
+      }
+      if(fr) target = fr.user;
+    }
+    var h = '<div class="disc-reply" id="disc-' + cid + '">' +
+              '<div class="dr-head"><span class="dr-user">' + escapeHtml(r.user || '') + '</span>' +
+              '<span class="dr-target">回复 ' + escapeHtml(target) + '</span></div>' +
+              '<div class="disc-text">' + escapeHtml(r.text || '').replace(/\n/g,'<br>') + '</div>' +
+            '</div>';
+    return h;
+  }
+
+  function renderComment(c){
     var cid = escapeHtml(c.id || '');
-    var h = '<div class="disc-item" id="disc-' + cid + '">' +
-              '<div class="disc-user">' + escapeHtml(c.user || '') + '</div>';
-    /* 引用批注标注：说明这条讨论来自哪条批注 */
+    var h = '<div class="disc-item" id="disc-' + cid + '">';
+    /* 引用批注：显示在内容之前的一个引文框 */
     if(c.quote){
-      h += '<div class="disc-quote">引用批注 ·「' + escapeHtml(c.quote) + '」</div>';
+      h += '<div class="disc-quote"><span class="dq-text">引用批注 ·「' + escapeHtml(c.quote) + '」</span>' +
+           '<button type="button" class="disc-back-btn" data-back-cid="' + cid + '">↑ 回原文</button></div>';
     }
+    h += '<div class="disc-user">' + escapeHtml(c.user || '') + '</div>';
     h += '<div class="disc-text">' + escapeHtml(c.text || '').replace(/\n/g,'<br>') + '</div>';
-    /* 被批注引用过的讨论条才提供"回原文" */
-    if(c.quote){
-      h += '<div class="disc-back"><button type="button" class="disc-back-btn" data-back-cid="' + cid + '">↑ 回原文</button></div>';
-    }
     var replies = c.replies || [];
     if(replies.length){
-      h += '<div class="disc-replies">' +
-             replies.map(function(r){ return renderComment(r, depth + 1); }).join('') +
-           '</div>';
+      h += '<div class="disc-replies">' + replies.map(function(r){ return renderReply(r, c); }).join('') + '</div>';
     }
     h += '</div>';
     return h;
@@ -1196,7 +1222,7 @@ mark.hl{
               '<div class="disc-head"><span class="disc-title">讨论区</span>' +
               '<span class="disc-flag">只读 · 无写入权限</span></div>';
     if(comments.length){
-      h += '<div class="disc-list">' + comments.map(function(c){ return renderComment(c, 0); }).join('') + '</div>';
+      h += '<div class="disc-list">' + comments.map(function(c){ return renderComment(c); }).join('') + '</div>';
     } else {
       h += '<div class="disc-empty">暂无讨论条目</div>';
     }
