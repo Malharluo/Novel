@@ -77,7 +77,7 @@
   "chromiumExec": "C:\\Program Files (x86)\\Microsoft\\Edge\\Application\\msedge.exe",
   "engineDegraded": true,
   "engineDegradedReason": "playwright 未装",
-  "elapsedSec": 8.29,
+  "elapsedSec": 6.37,
   "schemaVersion": 2,
   "status": "pass",
   "engineInfo": {
