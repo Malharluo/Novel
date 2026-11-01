@@ -1,7 +1,7 @@
 {
-  "src": "D:\\ARC\\index.html",
-  "url": "file:///D:/ARC/index.html",
-  "outdir": "D:\\ARC\\_shots",
+  "src": "D:\\Documents\\Novel\\index.html",
+  "url": "file:///D:/Documents/Novel/index.html",
+  "outdir": "D:\\Documents\\Novel\\_shots",
   "include": [
     "lint",
     "screenshots",
@@ -9,8 +9,8 @@
   ],
   "shots": {
     "desktop": {
-      "screenshot": "D:\\ARC\\_shots\\index_desktop.jpg",
-      "screenshotBytes": 9888,
+      "screenshot": "D:\\Documents\\Novel\\_shots\\index_desktop.jpg",
+      "screenshotBytes": 12196,
       "truncated": false,
       "structure": {
         "title": "ARC · 档案室",
@@ -24,14 +24,14 @@
           "h": 763
         },
         "counts": {
-          "section": 2,
+          "section": 4,
           "h1": 0,
           "h2": 0,
           "img": 0,
           "canvas": 0,
           "svg": 3,
           "links": 0,
-          "buttons": 3
+          "buttons": 5
         }
       },
       "consoleErrors": [],
@@ -41,8 +41,8 @@
       "reportSource": "cdp"
     },
     "mobile": {
-      "screenshot": "D:\\ARC\\_shots\\index_mobile.jpg",
-      "screenshotBytes": 4924,
+      "screenshot": "D:\\Documents\\Novel\\_shots\\index_mobile.jpg",
+      "screenshotBytes": 8306,
       "truncated": false,
       "structure": {
         "title": "ARC · 档案室",
@@ -56,14 +56,14 @@
           "h": 707
         },
         "counts": {
-          "section": 2,
+          "section": 4,
           "h1": 0,
           "h2": 0,
           "img": 0,
           "canvas": 0,
           "svg": 3,
           "links": 0,
-          "buttons": 3
+          "buttons": 5
         }
       },
       "consoleErrors": [],
@@ -77,7 +77,7 @@
   "chromiumExec": "C:\\Program Files (x86)\\Microsoft\\Edge\\Application\\msedge.exe",
   "engineDegraded": true,
   "engineDegradedReason": "playwright 未装",
-  "elapsedSec": 6.62,
+  "elapsedSec": 8.29,
   "schemaVersion": 2,
   "status": "pass",
   "engineInfo": {
@@ -88,9 +88,9 @@
     ]
   },
   "input": {
-    "original": "D:\\ARC\\index.html",
-    "resolvedPath": "D:\\ARC\\index.html",
-    "baseUrl": "file:///D:/ARC/index.html",
+    "original": "D:\\Documents\\Novel\\index.html",
+    "resolvedPath": "D:\\Documents\\Novel\\index.html",
+    "baseUrl": "file:///D:/Documents/Novel/index.html",
     "protocol": "file",
     "cwd": "D:\\ARC",
     "mediaMode": {
@@ -101,8 +101,8 @@
     "screenshots": [
       {
         "viewport": "desktop",
-        "path": "D:\\ARC\\_shots\\index_desktop.jpg",
-        "size": 9888,
+        "path": "D:\\Documents\\Novel\\_shots\\index_desktop.jpg",
+        "size": 12196,
         "visualCoverage": {
           "complete": true,
           "reason": null
@@ -110,8 +110,8 @@
       },
       {
         "viewport": "mobile",
-        "path": "D:\\ARC\\_shots\\index_mobile.jpg",
-        "size": 4924,
+        "path": "D:\\Documents\\Novel\\_shots\\index_mobile.jpg",
+        "size": 8306,
         "visualCoverage": {
           "complete": true,
           "reason": null
@@ -127,5 +127,5 @@
   },
   "findings": [],
   "prioritizedActions": [],
-  "reportPath": "D:\\ARC\\_shots\\report.json"
+  "reportPath": "D:\\Documents\\Novel\\_shots\\report.json"
 }

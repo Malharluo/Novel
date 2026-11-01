@@ -86,6 +86,39 @@ body{
 
 /* 搜索栏 */
 .search-wrap{padding:14px 14px 6px}
+
+/* 系统时间拨杆（ARC 历）：调节当前系统时间，影响热点可见性 */
+.time-wrap{
+  padding:12px 14px 2px;
+  border-top:1px solid var(--line-soft);
+  margin:0 14px 4px;
+}
+.time-head{display:flex;align-items:center;justify-content:space-between;margin-bottom:8px}
+.time-label{font-family:var(--mono);font-size:11px;letter-spacing:.22em;color:var(--text-muted)}
+.time-val{font-family:var(--mono);font-size:12px;color:var(--accent);letter-spacing:.08em}
+.time-slider{
+  -webkit-appearance:none;appearance:none;
+  width:100%;height:4px;border-radius:2px;
+  background:var(--line);outline:none;
+  cursor:pointer;
+}
+.time-slider::-webkit-slider-thumb{
+  -webkit-appearance:none;appearance:none;
+  width:16px;height:16px;border-radius:50%;
+  background:var(--accent);border:3px solid var(--bg);
+  box-shadow:0 0 0 1px var(--accent);
+}
+.time-slider::-moz-range-thumb{
+  width:16px;height:16px;border-radius:50%;
+  background:var(--accent);border:3px solid var(--bg);
+  box-shadow:0 0 0 1px var(--accent);
+}
+.time-range{
+  margin-top:6px;
+  display:flex;justify-content:space-between;
+  font-family:var(--mono);font-size:10px;color:var(--text-muted);
+  letter-spacing:.06em;
+}
 #searchInput{
   width:100%;
   background:var(--bg-panel-2);
@@ -261,17 +294,11 @@ body{
   margin-right:8px;
 }
 .article-body .note .note-text{color:var(--text-dim)}
-.article-body .note .note-link{
-  cursor:pointer;color:var(--accent);
-  margin-left:8px;font-family:var(--mono);
-  font-size:12px;border-bottom:1px dotted var(--accent);
-}
 /* 窄屏（手机端）：批注折叠为可展开卡片，不撑开正文 */
 @media (max-width: 899px){
   .article-body .note{cursor:pointer;transition:background .2s}
   .article-body .note:hover{background:var(--accent-soft)}
-  .article-body .note:not(.open) .note-text,
-  .article-body .note:not(.open) .note-link{display:none}
+  .article-body .note:not(.open) .note-text{display:none}
   .article-body .note:not(.open) .note-phrase{margin-bottom:0}
   .article-body .note:not(.open) .note-phrase::after{content:" ▸ 展开";color:var(--text-muted)}
 }
@@ -328,30 +355,19 @@ body{
   transition:border-color .3s, background .3s;
 }
 .disc-item.flash{border-color:var(--accent);background:var(--accent-soft)}
-/* 引用批注：显示在内容之前的引文框 */
-.disc-quote{
-  display:flex;align-items:center;justify-content:space-between;gap:10px;
-  background:var(--accent-soft);
-  border:1px solid rgba(167,139,250,.28);
-  border-left:3px solid var(--accent);
-  border-radius:8px;
-  padding:8px 12px;
-  margin-bottom:10px;
-  font-family:var(--mono);font-size:12px;
-  color:var(--accent);letter-spacing:.03em;
+/* 讨论区头像（GitHub 风格：彩色背景 + 用户名首字，不放图片） */
+.avatar{
+  display:inline-flex;align-items:center;justify-content:center;
+  border-radius:50%;flex:none;
+  font-family:var(--mono);font-size:12px;color:#fff;
+  user-select:none;line-height:1;
 }
-.disc-quote .disc-back-btn{
-  background:none;border:none;
-  color:var(--text-muted);font-family:var(--mono);
-  font-size:11px;cursor:pointer;padding:6px 8px;
-  min-height:32px;flex-shrink:0;
-}
-.disc-quote .disc-back-btn:hover{color:var(--accent)}
+.disc-meta{display:flex;align-items:center;gap:8px;margin-bottom:6px}
 .disc-user{
   font-family:var(--mono);font-size:12px;
   color:var(--accent);letter-spacing:.06em;
-  margin-bottom:5px;
 }
+.disc-time{font-family:var(--mono);font-size:11px;color:var(--text-muted);margin-left:auto}
 .disc-text{font-size:14px;line-height:1.95;color:var(--text-dim)}
 /* 楼内回复：平级列表（二楼、三楼……都直接回复一楼），不无限嵌套 */
 .disc-replies{
@@ -365,7 +381,7 @@ body{
   margin-bottom:6px;
 }
 .disc-reply:hover{border-left-color:var(--accent)}
-.dr-head{display:flex;align-items:baseline;gap:8px;margin-bottom:4px}
+.dr-head{display:flex;align-items:center;gap:8px;margin-bottom:4px}
 .dr-user{font-family:var(--mono);font-size:12px;color:var(--accent)}
 .dr-target{font-family:var(--mono);font-size:11px;color:var(--text-muted)}
 .disc-empty{font-size:13px;color:var(--text-muted);padding:8px 0}
@@ -435,6 +451,32 @@ body{
 .sh-item .x{color:var(--text-muted);font-size:12px}
 .sh-item .x:hover{color:var(--accent)}
 .sh-empty{padding:14px 2px;font-size:13px;color:var(--text-muted)}
+
+/* 搜索热点：当前系统时间下已发布的热点榜 */
+.hs{padding-top:16px}
+.hs-head{display:flex;align-items:center;justify-content:space-between;margin-bottom:12px}
+.hs-title{font-family:var(--mono);font-size:12px;letter-spacing:.2em;color:var(--text-muted)}
+.hs-time{font-family:var(--mono);font-size:11px;color:var(--text-dim);letter-spacing:.06em}
+.hs-list{display:flex;flex-direction:column;gap:8px}
+.hs-item{
+  display:flex;align-items:center;gap:12px;width:100%;text-align:left;
+  background:none;border:none;cursor:pointer;
+  padding:12px 14px;
+  background:var(--bg-panel);border:1px solid var(--line);
+  border-radius:10px;
+  transition:border-color .15s,background .15s;
+}
+.hs-item:hover{border-color:var(--accent);background:var(--bg-hover)}
+.hs-idx{
+  font-family:var(--mono);font-size:13px;color:var(--accent);
+  letter-spacing:.04em;flex-shrink:0;width:26px;
+}
+.hs-t{font-size:15px;color:var(--text);line-height:1.5;flex:1;min-width:0}
+.hs-p{font-family:var(--mono);font-size:11px;color:var(--text-muted);letter-spacing:.06em;flex-shrink:0}
+.hs-empty{
+  padding:14px 2px;font-size:13px;color:var(--text-muted);
+  font-family:var(--mono);letter-spacing:.04em;line-height:1.9;
+}
 
 /* 搜索结果 */
 .sr{padding-top:14px}
@@ -546,8 +588,17 @@ mark.hl{
     <div class="site-sub" id="siteSub"></div>
   </header>
 
+  <div class="time-wrap">
+    <div class="time-head">
+      <span class="time-label">系统时间</span>
+      <span class="time-val" id="timeVal">ARC 日 001</span>
+    </div>
+    <input type="range" id="timeSlider" class="time-slider" min="1" max="1" value="1" aria-label="调节系统时间">
+    <div class="time-range"><span>起点</span><span id="timeRange">1 ─ 1</span></div>
+  </div>
+
   <div class="search-wrap">
-    <input type="search" id="searchInput" placeholder="搜索日志 / 词条…" autocomplete="off" readonly="readonly">
+    <input type="search" id="searchInput" placeholder="搜索热点…" autocomplete="off" readonly="readonly">
   </div>
 
   <nav class="toc" aria-label="目录">
@@ -576,7 +627,7 @@ mark.hl{
   <div class="search-head">
     <div class="search-box">
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="11" cy="11" r="7"/><path d="M21 21l-4.3-4.3"/></svg>
-      <input type="search" id="searchPageInput" placeholder="搜索日志 / 词条…" autocomplete="off">
+      <input type="search" id="searchPageInput" placeholder="搜索热点…" autocomplete="off">
     </div>
     <button type="button" id="searchCancel">取消</button>
   </div>
@@ -591,13 +642,22 @@ mark.hl{
       <div id="shList" class="sh-list"></div>
     </section>
 
-    <!-- 搜索结果（仅数据库词条） -->
+    <!-- 搜索热点：当前系统时间下已发布的热点 -->
+    <section id="hotSpots" class="hs">
+      <div class="hs-head">
+        <span class="hs-title">搜索热点</span>
+        <span class="hs-time" id="hsTime"></span>
+      </div>
+      <div id="hsList" class="hs-list"></div>
+    </section>
+
+    <!-- 搜索结果（仅当前时间已发布的热点） -->
     <section id="searchResults" class="sr" hidden>
       <div class="sr-group" id="srDbGroup">
-        <div class="sr-title">数据库词条</div>
+        <div class="sr-title">搜索热点</div>
         <div id="srDbList" class="sr-list"></div>
       </div>
-      <div id="srEmpty" class="sr-empty" hidden>未找到匹配的条目</div>
+      <div id="srEmpty" class="sr-empty" hidden>未找到匹配的热点</div>
     </section>
 
     <!-- 开发者模式面板（隐蔽入口：搜索 04130413） -->
@@ -734,9 +794,89 @@ mark.hl{
   /* ============================================================
      搜索页：点击目录栏搜索框进入
      - 搜索历史（localStorage，可单条删除 / 清空）
-     - 模糊匹配：主线 = 标题+关键词；数据库 = 标题+关键词+正文
-     - 结果关键词高亮，点击跳转对应条目
+     - 搜索范围：仅"当前系统时间已发布"的热点（数据库条目，带发布时间）
+     - 匹配：标题 + 自定义关键词（主线不参与，不搜正文）
+     - 结果关键词高亮，点击跳转对应热点
      ============================================================ */
+
+  /* ---------- 系统内时间（ARC 历） ----------
+     拨杆调节"当前系统时间"；热点带 publish（发布时间），
+     只有 发布时间 <= 当前系统时间 的热点才可见、可被搜索。 */
+  var TIME_KEY = 'arc:time:v1';
+  var TIME_UNIT = (CFG.systemTime && CFG.systemTime.unit) || 'ARC 日';
+  var currentTime = 1;
+  var maxTime = 1;
+
+  function padTime(n){ return ('000' + n).slice(-3); }
+
+  /* 当前系统时间下可见（已发布）的热点 */
+  function visibleDb(){
+    return (CFG.database || []).filter(function(it){ return it.publish <= currentTime; });
+  }
+
+  /* 搜索热榜：只展示【当前周期】的热点；
+     更早周期（已归档）的热点从榜单移除，但搜索仍可搜到 */
+  function renderHotSpots(){
+    var list = document.getElementById('hsList');
+    var timeEl = document.getElementById('hsTime');
+    if(!list) return;
+    timeEl.textContent = '当前 ' + TIME_UNIT + ' ' + padTime(currentTime);
+    list.innerHTML = '';
+    var vis = (CFG.database || []).filter(function(it){ return it.publish === currentTime; });
+    if(!vis.length){
+      list.innerHTML = '<div class="hs-empty">本' + TIME_UNIT + '暂无热点 · 更早周期的热点已归档，只能通过搜索找到</div>';
+      return;
+    }
+    vis.forEach(function(it, i){
+      var btn = document.createElement('button');
+      btn.type = 'button';
+      btn.className = 'hs-item';
+      btn.innerHTML = '<span class="hs-idx">' + padTime(i + 1) + '</span>' +
+                      '<span class="hs-t">' + escapeHtml(it.title) + '</span>' +
+                      '<span class="hs-p">' + TIME_UNIT + ' ' + padTime(it.publish) + '</span>';
+      btn.addEventListener('click', function(){
+        window.ARC.openArticle(it.id, 'db');
+        closeSearchView();
+      });
+      list.appendChild(btn);
+    });
+  }
+
+  function updateTimeUI(){
+    var val = document.getElementById('timeVal');
+    var range = document.getElementById('timeRange');
+    if(val) val.textContent = TIME_UNIT + ' ' + padTime(currentTime);
+    if(range) range.textContent = '1 ─ ' + maxTime;
+    /* 搜索页打开时同步刷新热榜 */
+    var sv = document.getElementById('searchView');
+    if(sv && !sv.hidden && !devMode) renderHotSpots();
+  }
+
+  function initTime(){
+    maxTime = 1;
+    (CFG.database || []).forEach(function(it){
+      var p = parseInt(it.publish, 10);
+      if(!isNaN(p) && p > maxTime) maxTime = p;
+    });
+    var saved = NaN;
+    try { saved = parseInt(localStorage.getItem(TIME_KEY), 10); } catch(e){}
+    currentTime = isNaN(saved)
+      ? ((CFG.systemTime && CFG.systemTime.now) || 1)
+      : saved;
+    currentTime = Math.max(1, Math.min(maxTime, currentTime));
+    var slider = document.getElementById('timeSlider');
+    slider.min = 1;
+    slider.max = maxTime;
+    slider.value = currentTime;
+    slider.addEventListener('input', function(){
+      currentTime = parseInt(slider.value, 10);
+      try { localStorage.setItem(TIME_KEY, String(currentTime)); } catch(e){}
+      updateTimeUI();
+    });
+    updateTimeUI();
+  }
+  initTime();
+
   var searchView = document.getElementById('searchView');
   var searchPageInput = document.getElementById('searchPageInput');
   var searchCancel = document.getElementById('searchCancel');
@@ -805,7 +945,7 @@ mark.hl{
     dbEl.innerHTML = '';
     if(!dbHits || !dbHits.length){
       emptyEl.hidden = false;
-      dbEl.innerHTML = '<div class="sr-group-empty">数据库词条 · 无匹配结果</div>';
+      dbEl.innerHTML = '<div class="sr-group-empty">热点 · 无匹配结果</div>';
       return;
     }
     emptyEl.hidden = true;
@@ -831,7 +971,7 @@ mark.hl{
     }
 
     btn.innerHTML = '<div class="s-title">' + highlight(it.title, q) + '</div>' +
-                    '<div class="s-meta">DATABASE · 数据库词条</div>' + kwStr;
+                    '<div class="s-meta">热点 · ' + TIME_UNIT + ' ' + padTime(it.publish) + '</div>' + kwStr;
     btn.addEventListener('click', function(){
       window.ARC.openArticle(it.id, 'db');
       closeSearchView();
@@ -842,16 +982,20 @@ mark.hl{
 
   function renderResults(q){
     q = (q || '').trim();
+    var hsEl = document.getElementById('hotSpots');
     if(!q){
       searchHistoryEl.hidden = false;
+      hsEl.hidden = false;
       searchResultsEl.hidden = true;
+      renderHotSpots();
       return;
     }
     searchHistoryEl.hidden = true;
+    hsEl.hidden = true;
     searchResultsEl.hidden = false;
 
-    /* 搜索范围：仅数据库词条；匹配：标题 + 自定义关键词（主线不参与） */
-    var dbHits = (CFG.database || []).filter(function(it){ return matchItem(it, q); });
+    /* 搜索范围：仅当前系统时间已发布的热点；匹配：标题 + 自定义关键词（主线不参与） */
+    var dbHits = visibleDb().filter(function(it){ return matchItem(it, q); });
     drawResults(dbHits, q);
   }
 
@@ -879,6 +1023,8 @@ mark.hl{
     searchView.hidden = false;
     searchResultsEl.hidden = true;
     searchHistoryEl.hidden = false;
+    document.getElementById('hotSpots').hidden = false;
+    renderHotSpots();
     renderHistory();
     searchPageInput.value = '';
     searchPageInput.focus();
@@ -902,8 +1048,11 @@ mark.hl{
     var kwStr = kws.length
       ? '<div class="d-kw">' + kws.map(function(k){ return '<span>' + escapeHtml(k) + '</span>'; }).join('') + '</div>'
       : '';
+    var meta = (type === 'db')
+      ? 'DATABASE · ' + escapeHtml(it.id) + ' · ' + TIME_UNIT + ' ' + padTime(it.publish)
+      : label + ' · ' + escapeHtml(it.id);
     btn.innerHTML = '<div class="d-title">' + escapeHtml(it.title) + '</div>' +
-                    '<div class="d-meta">' + label + ' · ' + escapeHtml(it.id) + '</div>' + kwStr;
+                    '<div class="d-meta">' + meta + '</div>' + kwStr;
     btn.addEventListener('click', function(){
       window.ARC.openArticle(it.id, type);
       closeSearchView();
@@ -924,6 +1073,7 @@ mark.hl{
     devMode = true;
     searchHistoryEl.hidden = true;
     searchResultsEl.hidden = true;
+    document.getElementById('hotSpots').hidden = true;
     devPanelEl.hidden = false;
     searchPageInput.value = '';
     renderDevAll();
@@ -934,6 +1084,7 @@ mark.hl{
     devMode = false;
     devPanelEl.hidden = true;
     searchResultsEl.hidden = true;
+    document.getElementById('hotSpots').hidden = false;
     searchHistoryEl.hidden = false;
     renderHistory();
     searchPageInput.value = '';
@@ -943,10 +1094,11 @@ mark.hl{
   document.getElementById('devExit').addEventListener('click', exitDevMode);
   document.getElementById('devReset').addEventListener('click', function(){
     if(!devMode) return;
-    /* 清除全部本地数据（阅读进度 + 搜索历史），回到初始状态 */
+    /* 清除全部本地数据（阅读进度 + 搜索历史 + 系统时间），回到初始状态 */
     try {
       localStorage.removeItem('arc:progress:v1');
       localStorage.removeItem('arc:search:v1');
+      localStorage.removeItem('arc:time:v1');
     } catch(e){}
     location.reload();
   });
@@ -1035,22 +1187,17 @@ mark.hl{
       if(t === ''){ flushList(); i++; continue; }
 
       /* 行间批注（锚定原文词句）
-         {{@用户名|索引词句|批注内容}}
-         {{@用户名|索引词句|批注内容|讨论id}} */
-      var nm4 = t.match(/^\{\{@([^|{}]+)\|([^{}]+)\|([^{}]+)\|([^{}]+)\}\}$/);
+         {{@用户名|索引词句|批注内容}} */
       var nm3 = t.match(/^\{\{@([^|{}]+)\|([^{}]+)\|([^{}]+)\}\}$/);
-      if(nm4 || nm3){
+      if(nm3){
         flushList();
-        var m = nm4 || nm3;
-        var user = m[1].trim();
-        var phrase = m[2].trim();
-        var noteText = m[3];
-        var cid = nm4 ? m[4].trim() : '';
+        var user = nm3[1].trim();
+        var phrase = nm3[2].trim();
+        var noteText = nm3[3];
         html += '<div class="note">' +
                   '<span class="note-phrase" data-phrase="'+escapeHtml(phrase)+'" title="点击定位原文">'+inlineMd(phrase)+'</span>' +
                   '<span class="note-user">'+escapeHtml(user)+'</span>' +
                   '<span class="note-text">'+inlineMd(noteText)+'</span>' +
-                  (cid ? '<span class="note-link" data-cid="'+escapeHtml(cid)+'">↳ 讨论</span>' : '') +
                 '</div>';
         i++; continue;
       }
@@ -1194,7 +1341,19 @@ mark.hl{
     return null;
   }
 
-  /* 讨论区渲染（帖子式：一楼 + 楼内平级回复；引用批注显示为内容前的引文框） */
+  /* 讨论区渲染（独立分区：一楼 + 楼内平级回复，与正文/批注无引用关系） */
+
+  /* GitHub 风格头像：从用户名哈希出稳定背景色，显示首字，不放图片 */
+  function avatarColor(name){
+    var h = 0;
+    for(var i = 0; i < name.length; i++){ h = (h * 31 + name.charCodeAt(i)) >>> 0; }
+    return 'hsl(' + (h % 360) + ',52%,42%)';
+  }
+  function avatarHtml(user, size){
+    var u = user || '?';
+    return '<span class="avatar" style="background:' + avatarColor(u) + ';width:' + size + 'px;height:' + size + 'px">' + escapeHtml(u.charAt(0)) + '</span>';
+  }
+
   function renderReply(r, floor){
     var cid = escapeHtml(r.id || '');
     /* 解析回复目标：指定 replyTo 则回复对应条目，否则默认回复一楼 */
@@ -1208,8 +1367,11 @@ mark.hl{
       if(fr) target = fr.user;
     }
     var h = '<div class="disc-reply" id="disc-' + cid + '">' +
-              '<div class="dr-head"><span class="dr-user">' + escapeHtml(r.user || '') + '</span>' +
-              '<span class="dr-target">回复 ' + escapeHtml(target) + '</span></div>' +
+              '<div class="dr-head">' + avatarHtml(r.user, 20) +
+                '<span class="dr-user">' + escapeHtml(r.user || '') + '</span>' +
+                '<span class="dr-target">回复 ' + escapeHtml(target) + '</span>' +
+                (r.time ? '<span class="disc-time">' + escapeHtml(r.time) + '</span>' : '') +
+              '</div>' +
               '<div class="disc-text">' + escapeHtml(r.text || '').replace(/\n/g,'<br>') + '</div>' +
             '</div>';
     return h;
@@ -1217,14 +1379,12 @@ mark.hl{
 
   function renderComment(c){
     var cid = escapeHtml(c.id || '');
-    var h = '<div class="disc-item" id="disc-' + cid + '">';
-    /* 引用批注：显示在内容之前的一个引文框 */
-    if(c.quote){
-      h += '<div class="disc-quote"><span class="dq-text">引用批注 ·「' + escapeHtml(c.quote) + '」</span>' +
-           '<button type="button" class="disc-back-btn" data-back-cid="' + cid + '">↑ 回原文</button></div>';
-    }
-    h += '<div class="disc-user">' + escapeHtml(c.user || '') + '</div>';
-    h += '<div class="disc-text">' + escapeHtml(c.text || '').replace(/\n/g,'<br>') + '</div>';
+    var h = '<div class="disc-item" id="disc-' + cid + '">' +
+              '<div class="disc-meta">' + avatarHtml(c.user, 26) +
+                '<span class="disc-user">' + escapeHtml(c.user || '') + '</span>' +
+                (c.time ? '<span class="disc-time">' + escapeHtml(c.time) + '</span>' : '') +
+              '</div>' +
+              '<div class="disc-text">' + escapeHtml(c.text || '').replace(/\n/g,'<br>') + '</div>';
     var replies = c.replies || [];
     if(replies.length){
       h += '<div class="disc-replies">' + replies.map(function(r){ return renderReply(r, c); }).join('') + '</div>';
@@ -1255,11 +1415,16 @@ mark.hl{
     var ph = document.getElementById('placeholder');
     var view = document.getElementById('articleView');
 
-    var kind = (type === 'db') ? 'DATABASE · 支线档案' : 'MAINLINE · 主线日志';
+    var kind = (type === 'db') ? 'DATABASE · 热点记录' : 'MAINLINE · 主线日志';
+    var meta = data.date ? escapeHtml(data.date) : '';
+    if(type === 'db'){
+      var ditem = findItem(id, type);
+      if(ditem && ditem.publish) meta = TIME_UNIT + ' ' + padTime(ditem.publish) + (meta ? ' · ' + meta : '');
+    }
     var html = '<div class="article-head">' +
                  '<div class="a-kind">'+kind+'</div>' +
                  '<h1>'+escapeHtml(data.title)+'</h1>' +
-                 (data.date ? '<div class="a-meta">'+escapeHtml(data.date)+'</div>' : '') +
+                 (meta ? '<div class="a-meta">'+meta+'</div>' : '') +
                '</div>' +
                '<div class="article-body">'+renderMarkdown(data.content)+'</div>' +
                '<div id="discussionArea"></div>';
@@ -1378,8 +1543,8 @@ mark.hl{
         nt.classList.add('open');
         return;
       }
-      /* 已展开：点击空白区域收起（不干扰词句定位 / 讨论跳转） */
-      var inner = e.target.closest('.note-phrase, .note-link');
+      /* 已展开：点击空白区域收起（不干扰词句定位） */
+      var inner = e.target.closest('.note-phrase');
       if(!inner){
         nt.classList.remove('open');
         return;
@@ -1392,34 +1557,6 @@ mark.hl{
       var ph = np.getAttribute('data-phrase');
       if(ph) locatePhrase(ph);
       return;
-    }
-
-    /* 批注 "↳ 讨论" → 滚动到讨论区对应条目并高亮 */
-    var nl = e.target && e.target.closest ? e.target.closest('.note-link') : null;
-    if(nl){
-      var cid = nl.getAttribute('data-cid');
-      var item = document.getElementById('disc-' + cid);
-      if(item){
-        item.scrollIntoView({ behavior: 'smooth', block: 'center' });
-        item.classList.add('flash');
-        setTimeout(function(){ item.classList.remove('flash'); }, 1800);
-      }
-      return;
-    }
-
-    /* 讨论区 "↑ 回原文" → 滚动到引用该条目的批注并高亮 */
-    var db = e.target && e.target.closest ? e.target.closest('.disc-back-btn') : null;
-    if(db){
-      var backCid = db.getAttribute('data-back-cid');
-      var noteLink = document.querySelector('.article-body .note-link[data-cid="' + backCid + '"]');
-      var note = noteLink ? noteLink.closest('.note') : null;
-      if(note){
-        /* 窄屏下跳转过来时自动展开批注，保证内容可见 */
-        if(window.innerWidth < 900) note.classList.add('open');
-        note.scrollIntoView({ behavior: 'smooth', block: 'center' });
-        note.classList.add('flash');
-        setTimeout(function(){ note.classList.remove('flash'); }, 1800);
-      }
     }
   });
 
